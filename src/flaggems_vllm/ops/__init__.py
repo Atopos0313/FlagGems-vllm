@@ -20,6 +20,7 @@ from flaggems_vllm.ops.beam_search_score import beam_search_score, beam_search_s
 from flaggems_vllm.ops.bincount import bincount
 from flaggems_vllm.ops.chunk_gated_delta_rule import chunk_gated_delta_rule
 from flaggems_vllm.ops.concat_and_cache_mla import concat_and_cache_mla
+from flaggems_vllm.ops.concat_mla_q import concat_mla_q
 from flaggems_vllm.ops.cp_gather_indexer_k_quant_cache import (
     cp_gather_indexer_k_quant_cache,
 )
@@ -57,6 +58,9 @@ from flaggems_vllm.ops.flashmla_sparse import flash_mla_sparse_fwd
 from flaggems_vllm.ops.fp8_einsum import fp8_einsum
 from flaggems_vllm.ops.fp8_fp4_mqa_logits import fp8_fp4_mqa_logits
 from flaggems_vllm.ops.fp8_fp4_paged_mqa_logits import fp8_fp4_paged_mqa_logits
+from flaggems_vllm.ops.fp8_fp4_paged_mqa_logits_graph import (
+    fp8_fp4_paged_mqa_logits_graph,
+)
 from flaggems_vllm.ops.fused_add_rms_norm import fused_add_rms_norm
 from flaggems_vllm.ops.fused_deepseek_v4_qnorm_rope_kv_rope_quant_insert import (
     fused_deepseek_v4_qnorm_rope_kv_rope_quant_insert,
@@ -180,6 +184,7 @@ __all__ = [
     "combine_topk_swa_indices",
     "compute_global_topk_indices_and_lens",
     "concat_and_cache_mla",
+    "concat_mla_q",
     "cp_gather_indexer_k_quant_cache",
     "cross_entropy_loss",
     "cutlass_scaled_mm",
@@ -199,6 +204,7 @@ __all__ = [
     "fp8_einsum",
     "fp8_fp4_mqa_logits",
     "fp8_fp4_paged_mqa_logits",
+    "fp8_fp4_paged_mqa_logits_graph",
     "fused_add_rms_norm",
     "fused_deepseek_v4_qnorm_rope_kv_rope_quant_insert",
     "fused_experts_impl",

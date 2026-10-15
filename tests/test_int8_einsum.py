@@ -35,7 +35,7 @@ _EINSUM_BLOCK_SHAPES = [
 
 @pytest.mark.int8_einsum
 @pytest.mark.skipif(
-    not _einsum_low_precision_available(), reason="requires Hygon or MetaX INT8"
+    not _einsum_low_precision_available(), reason="requires Hygon, MetaX or PPU INT8"
 )
 @pytest.mark.parametrize("shape", _EINSUM_BLOCK_SHAPES)
 def test_accuracy_int8_einsum(shape):
@@ -77,8 +77,8 @@ def test_accuracy_int8_einsum(shape):
 
 @pytest.mark.einsum
 @pytest.mark.skipif(
-    flaggems_vllm.vendor_name != "hygon",
-    reason="Hygon precision dispatch",
+    flaggems_vllm.vendor_name not in ("hygon", "thead"),
+    reason="Hygon DCU or PPU precision dispatch",
 )
 @pytest.mark.parametrize("shape", [(3, 2, 129, 33), (16, 4, 256, 128)])
 @pytest.mark.parametrize("dtype", [torch.bfloat16, torch.float16, torch.float32])
@@ -97,7 +97,8 @@ def test_einsum_precision_route(shape, dtype):
 
 @pytest.mark.int8_einsum
 @pytest.mark.skipif(
-    flaggems_vllm.vendor_name not in ("hygon", "metax"), reason="Hygon or MetaX INT8"
+    flaggems_vllm.vendor_name not in ("hygon", "metax", "thead"),
+    reason="Hygon, MetaX or PPU INT8",
 )
 @pytest.mark.parametrize("layout", ["contiguous", "offset", "padded", "broadcast"])
 @pytest.mark.parametrize("shape", [(16, 2, 64, 32), (32, 2, 128, 128), (3, 2, 129, 33)])
@@ -135,7 +136,8 @@ def test_int8_einsum_layouts(shape, layout):
 
 @pytest.mark.int8_einsum
 @pytest.mark.skipif(
-    flaggems_vllm.vendor_name not in ("hygon", "metax"), reason="Hygon or MetaX INT8"
+    flaggems_vllm.vendor_name not in ("hygon", "metax", "thead"),
+    reason="Hygon, MetaX or PPU INT8",
 )
 @pytest.mark.parametrize(
     "shape", [(0, 2, 128, 32), (3, 0, 128, 32), (3, 2, 0, 32), (3, 2, 128, 0)]
@@ -168,7 +170,8 @@ def test_int8_einsum_empty(shape, dtype):
 
 @pytest.mark.int8_einsum
 @pytest.mark.skipif(
-    flaggems_vllm.vendor_name not in ("hygon", "metax"), reason="Hygon or MetaX INT8"
+    flaggems_vllm.vendor_name not in ("hygon", "metax", "thead"),
+    reason="Hygon, MetaX or PPU INT8",
 )
 def test_int8_einsum_validation_and_extremes():
     x = torch.full((16, 2, 64), -128, dtype=torch.int8, device=flaggems_vllm.device)

@@ -83,6 +83,17 @@ FULL_BENCHMARK_TRIGGER_FILES = {
 # Some existing tests do not follow the source-stem naming convention, so keep
 # a small explicit map here to avoid missing those tests.
 EXPLICIT_SOURCE_TO_TESTS = {
+    "src/flaggems_vllm/ops/qwen4/ple_conv.py": ["tests/test_ple_conv.py"],
+    "src/flaggems_vllm/ops/qwen4/hyperconnection.py": [
+        "tests/test_hyperconnection.py",
+        "tests/test_qwen4_self_kernels.py",
+    ],
+    "src/flaggems_vllm/ops/qwen4/qsa.py": [
+        "tests/test_qwen4_self_kernels.py",
+        "tests/test_qsa_attention.py",
+    ],
+    "src/flaggems_vllm/ops/qwen4/qsa_attention.py": ["tests/test_qsa_attention.py"],
+    "src/flaggems_vllm/ops/qwen4/ple_fusion.py": ["tests/test_ple_fusion.py"],
     "src/flaggems_vllm/ops/kda_bounded.py": [
         "tests/test_kda_bounded.py",
         "tests/test_glm5_numerics.py",
@@ -180,6 +191,17 @@ EXPLICIT_SOURCE_TO_TESTS = {
 
 # Same for benchmarks: keep explicit entries only for non-standard names that cannot be inferred from the source stem.
 EXPLICIT_SOURCE_TO_BENCHMARKS = {
+    "src/flaggems_vllm/ops/qwen4/ple_conv.py": ["benchmark/test_ple_conv.py"],
+    "src/flaggems_vllm/ops/qwen4/hyperconnection.py": [
+        "benchmark/test_hyperconnection.py",
+        "benchmark/test_qwen4_self_kernels.py",
+    ],
+    "src/flaggems_vllm/ops/qwen4/qsa.py": [
+        "benchmark/test_qwen4_self_kernels.py",
+        "benchmark/test_qsa_attention.py",
+    ],
+    "src/flaggems_vllm/ops/qwen4/qsa_attention.py": ["benchmark/test_qsa_attention.py"],
+    "src/flaggems_vllm/ops/qwen4/ple_fusion.py": ["benchmark/test_ple_fusion.py"],
     "src/flaggems_vllm/ops/kda_bounded.py": ["benchmark/test_kda_bounded_perf.py"],
     "src/flaggems_vllm/ops/kda64.py": ["benchmark/test_kda_bounded_perf.py"],
     "src/flaggems_vllm/ops/causal_conv1d.py": ["benchmark/test_glm5_ops_perf.py"],

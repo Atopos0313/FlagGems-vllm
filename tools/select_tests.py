@@ -83,6 +83,10 @@ FULL_BENCHMARK_TRIGGER_FILES = {
 # Some existing tests do not follow the source-stem naming convention, so keep
 # a small explicit map here to avoid missing those tests.
 EXPLICIT_SOURCE_TO_TESTS = {
+    "benchmark/test_bmm_w8a8.py": ["tests/test_bmm_w8a8.py"],
+    "src/flaggems_vllm/runtime/backend/_thead/ops/bmm_w8a8_int8.py": [
+        "tests/test_bmm_w8a8.py"
+    ],
     "src/flaggems_vllm/runtime/backend/_metax/ops/flash_attention/launcher.py": [
         "tests/test_flash_attn_varlen_func_w8a8_int8.py",
         "tests/test_flash_attn_varlen_func.py",
@@ -155,6 +159,7 @@ EXPLICIT_SOURCE_TO_TESTS = {
     ],
     "src/flaggems_vllm/runtime/backend/_thead/ops/w8a8_block_int8_bmm.py": [
         "tests/test_int8_einsum.py",
+        "tests/test_bmm_w8a8.py",
     ],
     "src/flaggems_vllm/ops/rotary_embedding.py": ["tests/test_apply_rotary_pos_emb.py"],
     "src/flaggems_vllm/ops/fused_moe.py": ["tests/test_fused_experts_impl.py"],
@@ -199,6 +204,9 @@ EXPLICIT_SOURCE_TO_TESTS = {
 
 # Same for benchmarks: keep explicit entries only for non-standard names that cannot be inferred from the source stem.
 EXPLICIT_SOURCE_TO_BENCHMARKS = {
+    "src/flaggems_vllm/runtime/backend/_thead/ops/bmm_w8a8_int8.py": [
+        "benchmark/test_bmm_w8a8.py"
+    ],
     "src/flaggems_vllm/runtime/backend/_metax/ops/flash_attention/launcher.py": [
         "benchmark/test_flash_attn_varlen_func_w8a8_int8.py",
         "benchmark/test_flash_attn_varlen_func.py",
@@ -252,6 +260,7 @@ EXPLICIT_SOURCE_TO_BENCHMARKS = {
     ],
     "src/flaggems_vllm/runtime/backend/_thead/ops/w8a8_block_int8_bmm.py": [
         "benchmark/test_int8_einsum.py",
+        "benchmark/test_bmm_w8a8.py",
     ],
     "src/flaggems_vllm/ops/rotary_embedding.py": [
         "benchmark/test_apply_rotary_pos_emb.py"

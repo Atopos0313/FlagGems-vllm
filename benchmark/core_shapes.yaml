@@ -462,6 +462,15 @@ MoeAlignBlockSizeBenchmark:
     - [8, 64]
     - [128, 4]
 
+LogitBiasBenchmark:
+  shapes:
+    - [1, 1, 32000]
+    - [16, 1, 128256]
+    - [64, 1, 151936]
+    - [256, 1, 151936]
+    - [64, 4, 151936]
+  shape_desc: "num_reqs, tokens_per_req, vocab_size"
+
 ConcatAndCacheMLABenchmark:
   shapes:
     - [16, 8, 84, 32, 4]

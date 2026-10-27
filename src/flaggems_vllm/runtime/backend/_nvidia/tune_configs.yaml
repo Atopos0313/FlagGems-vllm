@@ -361,6 +361,20 @@ cross_entropy_loss_sum_and_scale:
       - 64
       - 256
       - 1024
+apply_logit_bias:
+  - gen: true
+    param_map:
+      META:
+        LOGITS_BLOCK_SIZE: logits_block_size
+      num_warps: warps
+    logits_block_size:
+      - 2048
+      - 4096
+      - 8192
+      - 16384
+    warps:
+      - 4
+      - 8
 mv:
   - gen: true
     param_map:

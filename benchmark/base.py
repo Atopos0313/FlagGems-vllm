@@ -441,7 +441,10 @@ class Benchmark:
                 try:
                     args, kwargs = self.unpack_to_args_kwargs(input)
                     metric.shape_detail = self.record_shapes(*args, **kwargs)
-                    if "latency_base" in self.to_bench_metrics:
+                    if (
+                        "latency_base" in self.to_bench_metrics
+                        and self.torch_op is not None
+                    ):
                         metric.latency_base = self.get_latency(
                             self.torch_op, *args, **kwargs
                         )
@@ -463,7 +466,11 @@ class Benchmark:
                                     metric.latency = self.get_latency(
                                         self.torch_op, *args, **kwargs
                                     )
-                    if "speedup" in self.to_bench_metrics:
+                    if (
+                        "speedup" in self.to_bench_metrics
+                        and metric.latency_base is not None
+                        and metric.latency
+                    ):
                         metric.speedup = metric.latency_base / metric.latency
                     if Config.base_data is not None and metric.latency:
                         base_rec, miss_reason = lookup_base_record_ex(
@@ -501,6 +508,18 @@ class Benchmark:
                             # aggregated later.
                             metric.base_miss_reason = miss_reason
                             print(f"[vs Base][未匹配] {miss_reason}")
+                            # Method A hard error: when there is no on-machine
+                            # reference (torch_op is None, i.e. the vendor has no
+                            # native implementation) AND the NV baseline has no
+                            # matching record, there is no usable baseline at all
+                            # -> fail this case instead of silently yielding a
+                            # speedup/compared_speedup that are both None.
+                            if self.torch_op is None:
+                                raise RuntimeError(
+                                    f"no baseline available for '{self.op_name}'"
+                                    f" (dtype={dtype}): vendor-native missing and"
+                                    f" NV baseline unmatched ({miss_reason})"
+                                )
 
                     if "gbps" in self.to_bench_metrics:
                         metric.gbps_base = self.get_gbps(
@@ -508,7 +527,7 @@ class Benchmark:
                         )
                         metric.gbps = self.get_gbps(args, latency=metric.latency)
 
-                    if "tflops" in self.to_bench_metrics:
+                    if "tflops" in self.to_bench_metrics and self.torch_op is not None:
                         metric.tflops = (
                             self.get_tflops(self.torch_op, *args, **kwargs)
                             / metric.latency
